@@ -49,7 +49,7 @@ function insertImage(image_id) {
 			<% end %>
 			<p>
 				<%= f.label :title %><br />
-				<%= f.text_field :title %>
+				<%= f.text_field :title, :class => 'field'  %>
 			</p>
 			<p>
 				<%= f.label :body %><br />
@@ -57,7 +57,7 @@ function insertImage(image_id) {
 			</p>
 			<p>
 				<%= f.label :tags, 'Tags (comma seperated)' %><br />
-				<%= f.text_field :tags %>
+				<%= f.text_field :tags, :class => 'field'  %>
 			</p>
 			<p>
 				<%= f.label :published, 'Status' %><br />
@@ -69,77 +69,8 @@ function insertImage(image_id) {
 			</p>
 		</div>
 		<div class="blogEditRightPanel">
-			<% if BlogKit.instance.paperclip_support? %>
-				<h2>Images</h2>
-			
-				<p>
-					You can upload images for the blog post below and insert them using the [insert] 
-					link.  Once inserted, you can change the size to thumb, small, medium, or large.
-					Small is the default.
-				</p>
-
-				<table id="blogImages">
-					<tr class="blogImageHeader">
-						<td></td>
-						<td>Image</td>
-						<td>ID</td>
-						<td>File</td>
-						<td></td>
-					</td>
-					<% f.fields_for(:blog_images) do |g| %>
-						<%= render :partial => 'image', :locals => {:g => g} %>
-					<% end %>
-				</table>
-			
-				<button onclick="addImage();return false;">Add Image</button>
-			<% else %>
-				<h2>Image Support</h2>
-				
-				<p>
-					Images can be inserted using the following tag:<br />
-					![alt text](image url)
-				</p>
-				<p>
-					You can also install the paperclip plugin to enable uploading images.
-				</p>
-			<% end %>
-
-			<% if BlogKit.instance.settings['use_markdown'] != false %>
-				<div class="blogMarkdownHelp">
-					<h2>Editing Help</h2>
-					<p>This blog uses Markdown to format its syntax, here is a quick guide</p>
-					<ul>
-						<li>**bold text**</li>
-						<li>*italicized text*</li>
-						<li>&gt;This text is blockquoted</li>
-						<li>&gt;&gt;This text is a nested blockquote</li>
-						<li>* This is an unordered list (ul) item</li>
-						<li>1. This is an ordered list (ol) item</li>
-						<li>[This is a link](http://www.example.com/)</li>
-						<li>[This is a link](http://www.example.com/ "with a title attribute")</li>
-						<li>
-							Code can be highlighted with the following wrapper<br />
-
-<pre>&lt;code lang=&quot;ruby&quot;&gt;
-	... your code ...
-&lt;/code&gt;</pre>
-						</li>
-					</ul>
-				</div>
-			<% end %>
-
-
+			rightPanel
 		</div>
 		<br style="clear: both;" />
 	</div>
 <% end %>
-	
-
-<!-- used to create new images -->
-<table id="newImage" style="display: none;">
-	<% fields_for(@empty_blog_post) do |h| %>
-		<% h.fields_for(:blog_images, :child_index => 'replace_with_rand') do |g| %>
-			<%= render :partial => 'image', :locals => {:g => g} %>
-		<% end %>
-	<% end %>
-</table>

@@ -4,7 +4,7 @@
 		<p>You must be logged in to post a comment.</p>
 	<% else %>
 		<% if current_user %>
-			<p>Posting as <span class="blogPoster"><%= current_user.name %></span></p>
+			<p>Posting as <span class="blogPoster"><%= current_user.username %></span></p>
 		<% end %>
 		<% form_for([@blog_post, blog_comment]) do |f| %>
 			<% if blog_comment.errors.size > 0 %>
@@ -20,15 +20,15 @@
 			<% unless current_user %>
 				<p>
 					<%= f.label :name %><br />
-					<%= f.text_field :name %>
+					<%= f.text_field :name, :class => 'field'  %>
 				</p>
 				<p>
 					<%= f.label :site_url, 'Web Site' %><br />
-					<%= f.text_field :site_url %>
+					<%= f.text_field :site_url, :class => 'field'  %>
 				</p>
 				<p>
 					<%= f.label :email, 'Email (optional)' %><br />
-					<%= f.text_field :email %>
+					<%= f.text_field :email, :class => 'field'  %>
 				</p>
 			<% end %>
 			<p>

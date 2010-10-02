@@ -2,11 +2,8 @@ class BlogCommentsController < ApplicationController
 	unloadable
 	
 	helper :blog
-	
 	layout(BlogKit.instance.settings['layout'] || 'application')
 	
-	before_filter :require_user, :only => [:destroy]
-	before_filter :require_admin, :only => [:destroy]
 	before_filter :require_blog_post
 
   def create
@@ -54,13 +51,6 @@ class BlogCommentsController < ApplicationController
 			
 			return true
 		end
-		
-		def require_admin
-			if !current_user || !current_user.admin?
-				flash[:notice] = 'You must be an admin to view this page'
-				redirect_to blog_posts_path
-				return false
-			end
 
 			return true
 		end

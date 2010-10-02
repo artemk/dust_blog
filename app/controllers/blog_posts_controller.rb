@@ -1,15 +1,9 @@
 class BlogPostsController < ApplicationController
 	unloadable
 	
-	helper :blog
-	
+	helper :blog	
 	layout :choose_layout
-	
-	before_filter :require_user, :except => [:index, :show, :tag]
-	before_filter :require_admin, :except => [:index, :show, :tag]
-	before_filter :setup_image_template, :only => [:new, :edit, :create, :update]
 
-	
   def index
     @blog_posts = BlogPost.published.paginate(:page => params[:page], :per_page => 5, :order => 'published_at DESC')
     @index_title = BlogKit.instance.settings['blog_name'] || 'Blog'
@@ -20,7 +14,12 @@ class BlogPostsController < ApplicationController
 			format.atom
     end
   end
-
+	
+	def list
+		@blog_posts = BlogPost.all.paginate(:page => params[:page], :per_page => 10, :order => 'published_at DESC')
+		@drafts = BlogPost.all(:conditions => ["published = ?", false], :order => 'created_at DESC')
+	end
+	
 	def tag
 		@tag = params[:id]
 		@blog_tags = BlogTag.find_all_by_tag(params[:id])
@@ -115,26 +114,13 @@ class BlogPostsController < ApplicationController
   end
 
 	private
-		def require_admin
-			if !current_user || !current_user.admin?
-				flash[:notice] = 'You must be an admin to view this page'
-				redirect_to blog_posts_path
-				return false
-			end
-			
-			return true
-		end
 		
 		def choose_layout
-			if ['new', 'edit', 'create', 'update'].include?(params[:action])
+			if ['new', 'edit', 'create', 'update', 'list'].include?(params[:action])
 				BlogKit.instance.settings['admin_layout'] || 'application'
 			else
 				BlogKit.instance.settings['layout'] || 'application'
 			end
 		end
-		
-		def setup_image_template
-		  @empty_blog_post = BlogPost.new
-  		@empty_blog_post.blog_images.build
-	  end
+
 end
