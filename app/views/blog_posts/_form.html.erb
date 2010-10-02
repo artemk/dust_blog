@@ -1,0 +1,76 @@
+<script>
+function addImage() {
+	var newImageDiv = document.getElementById('newImage');
+	var blogImagesDiv = document.getElementById('blogImages');
+	
+	var add_html = (newImageDiv.innerHTML+'').replace(/replace_with_rand/g, Math.round(Math.random() * 1000000000));
+	
+	blogImagesDiv.innerHTML += add_html;
+	
+}
+
+function removeImage(image_id) {
+	document.getElementById('image_' + image_id).value = '1';
+	document.getElementById('imageDiv' + image_id).style.display = 'none';
+}
+
+function insertImage(image_id) {
+	var blogBody = document.getElementById('blog_post_body');
+	if (typeof(BLOG_EDITOR) !== 'undefined') {
+		BLOG_EDITOR.setContent(BLOG_EDITOR.getContent() + '\n<img src="{blog_image:' + image_id + ':large}" />\n');
+	} else {
+		blogBody.value += '\n![]({blog_image:' + image_id + ':large})\n';
+	}
+}
+</script>
+
+<% form_for(@blog_post, :html => { :multipart => true }) do |f| %>
+	<% if BlogKit.instance.settings['use_markdown'] == false && BlogKit.instance.settings['html_editor'] == true %>
+		<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+		<script type="text/javascript">
+		bkLib.onDomLoaded(function() {
+			nicEditors.allTextAreas();
+			BLOG_EDITOR = nicEditors.findEditor('blog_post_body');
+		});
+		</script>
+	<% end %>
+
+	<div class="editBlogPost">
+		<div class="blogEditLeftPanel">
+			<% if @blog_post.errors.size > 0 %>
+				<div id="errorExplanation">
+					<h2>The blog post could not be saved:</h2>
+					<ul>
+						<% @blog_post.errors.full_messages.each do |msg| %>
+							<li><%= msg %></li>
+						<% end %>
+					</ul>
+				</div>
+			<% end %>
+			<p>
+				<%= f.label :title %><br />
+				<%= f.text_field :title, :class => 'field'  %>
+			</p>
+			<p>
+				<%= f.label :body %><br />
+				<%= f.text_area :body %>
+			</p>
+			<p>
+				<%= f.label :tags, 'Tags (comma seperated)' %><br />
+				<%= f.text_field :tags, :class => 'field'  %>
+			</p>
+			<p>
+				<%= f.label :published, 'Status' %><br />
+				<%= f.radio_button :published, false %><%= f.label :published_false, 'Draft' %>
+				<%= f.radio_button :published, true %><%= f.label :published_true, 'Publish' %>
+			</p>
+			<p>
+				<%= f.submit 'Save' %> or <%= link_to 'Back', blog_posts_path %>
+			</p>
+		</div>
+		<div class="blogEditRightPanel">
+			rightPanel
+		</div>
+		<br style="clear: both;" />
+	</div>
+<% end %>

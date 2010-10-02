@@ -1,0 +1,77 @@
+<% self.respond_to?(:title) && title(@index_title) -%>
+<% @show_title = false -%>
+<%= stylesheet_link_tag 'blog_kit' %>
+<%= stylesheet_link_tag 'syntax/' + (BlogKit.instance.settings['theme'] || 'mac_classic') %>
+<%= auto_discovery_link_tag :atom, blog_posts_path(:format => :atom) %>
+
+<%= render :partial => 'admin_links' %>
+
+<% if @blog_posts.size == 0 && !params[:page] %>
+	<div class="blogPost">
+		<h1>No Blog Posts</h1>
+		<p>There are currently no blog posts, please check back shortly.</p>
+	</div>
+<% else %>
+	<% if @tag %>
+		<h1>Tag: <%= @tag %></h1>
+	<% end %>
+	<%  @blog_posts.each do |blog_post| %>
+		<div class="blogPost">
+			<div class="blogUserImage">
+				<%= blog_post.user_image_tag %>
+			</div>
+
+			<h1 class="blogPostTitle">
+				<%= link_to(h(blog_post.title), blog_post) %>
+				<% if !blog_post.published? %>
+					[Draft]
+				<% end %>
+			</h1>
+
+			<p class="blogPostPostedAt">
+				Posted
+				<% if blog_post.show_user? %>
+					By <span class="blogPoster"><%= blog_post.user_name %></span>
+				<% end %>
+				on 
+				<span class="blogPostDate"><%= blog_post.formatted_updated_at %></span>
+			</p>
+
+			<hr class="blogPostBreak" />
+			<% unless blog_post.tags.blank? %>
+				<p class="blogPostTags">
+					<b>Tags: </b>
+					<%= blog_post.tags_with_links %>
+				</p>
+			<% end %>
+
+			<p class="blogFooter">
+				<ul class="blogList">
+					<li class="blogListFirst"><%= link_to(pluralize(blog_post.blog_comments.count, 'comment'), blog_post_path(blog_post), :class => 'blogCommentCount') %></li>
+					<% if params[:action] == 'show' %>
+						<li><%= link_to('Back', blog_posts_path) %></li>
+					<% end %>
+
+
+					<% if permitted_to? :manage, :blog_posts %>
+						<li><%= link_to('Edit Post', edit_blog_post_path(blog_post))%></li>
+						<li><%= link_to('Delete', blog_post_path(blog_post), :method => :delete, :confirm => "Are you sure you want to destroy the post: #{blog_post.title}") %></li>
+					<% end %>
+				</ul>
+			</p>
+
+			<% if defined?(show_comments) %>
+				<%= render :partial => 'blog_comments/new_blog_comment', :locals => {:blog_comment => @blog_comment} %>
+				<%= render :partial => 'blog_posts/comments' %>
+			<% end %>
+
+			<br style="clear: both;" />
+		</div>
+	<% end %>
+<% end %>
+
+<div class="blogPages">
+	<%= will_paginate @blog_posts %>
+</div>
+
+<%= render :partial => 'admin_links' %>
