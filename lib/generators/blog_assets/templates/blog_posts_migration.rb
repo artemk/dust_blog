@@ -9,6 +9,7 @@ class CreateBlogPosts < ActiveRecord::Migration
 			t.column :user_id, :integer
 			t.column :published_at, :datetime
     end
+		AdminMenuItem.create({:title =>"Blog", :controller_name => "blog_posts", :url => "/post_list"})
   end
   
   def self.down
