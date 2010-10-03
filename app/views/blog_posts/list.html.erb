@@ -1,3 +1,12 @@
+<% content_for :header do -%>
+	<div id="searchbox">
+		<% form_tag post_list_path, :method => 'get' do %>
+		    <%= text_field_tag :search, params[:search], :class => "input-text", :placeholder => 'Search Posts' %>
+				<%= image_submit_tag "admin/search.png", :class => 'image-submit' %>
+		<% end %>
+	</div>
+<% end -%>
+
 <h3>Published Posts</h3>
 	<%= will_paginate @blog_posts %>
 <% @blog_posts.each do |post| %>
@@ -17,7 +26,8 @@
 <% end %>
 	<%= will_paginate @blog_posts %>
 <% content_for :left do -%>
-
+	<small><%=link_to ('new post', new_blog_post_path, :class => 'new')%></small>
+	<div class="clear"></div>
 	<h3>UnPublished Posts</h3>
 	<% @drafts.each do |post| %>
 	<div>

@@ -47,11 +47,8 @@ class BlogCommentsController < ApplicationController
 				flash[:notice] = 'The post you were looking for could not be found'
 				redirect_to :controller => 'blog_posts'
 				return false
-			end
-			
+			end			
 			return true
 		end
 
-			return true
-		end
 end

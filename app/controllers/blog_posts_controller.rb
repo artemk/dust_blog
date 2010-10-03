@@ -16,7 +16,7 @@ class BlogPostsController < ApplicationController
   end
 	
 	def list
-		@blog_posts = BlogPost.all.paginate(:page => params[:page], :per_page => 10, :order => 'published_at DESC')
+		@blog_posts = BlogPost.page(params[:search], params[:page]) 
 		@drafts = BlogPost.all(:conditions => ["published = ?", false], :order => 'created_at DESC')
 	end
 	
@@ -108,7 +108,7 @@ class BlogPostsController < ApplicationController
 		flash[:notice] = 'The blog post has been deleted'
 
     respond_to do |format|
-      format.html { redirect_to(blog_posts_url) }
+      format.html { redirect_to(post_list_url) }
       format.xml  { head :ok }
     end
   end

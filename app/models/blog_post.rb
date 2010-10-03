@@ -22,7 +22,13 @@ class BlogPost < ActiveRecord::Base
 	before_save :check_published, :if => :not_resaving?
 	before_save :save_tags, :if => :not_resaving?
 	after_save :replace_blog_image_tags, :if => :not_resaving?
-
+	
+	def self.page(search, page)
+			paginate	:page => page, 
+								:per_page => 10, 
+								:conditions => ['title LIKE ? OR body LIKE ?', "%#{search}%", "%#{search}%"], 
+								:order => 'created_at DESC'
+  end
 
 	def tags
 		@tags ||= self.blog_tags.map(&:tag).join(', ')

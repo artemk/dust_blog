@@ -4,8 +4,6 @@
 <%= stylesheet_link_tag 'syntax/' + (BlogKit.instance.settings['theme'] || 'mac_classic') %>
 <%= auto_discovery_link_tag :atom, blog_posts_path(:format => :atom) %>
 
-<%= render :partial => 'admin_links' %>
-
 <% if @blog_posts.size == 0 && !params[:page] %>
 	<div class="blogPost">
 		<h1>No Blog Posts</h1>
@@ -74,4 +72,3 @@
 	<%= will_paginate @blog_posts %>
 </div>
 
-<%= render :partial => 'admin_links' %>
