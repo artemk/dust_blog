@@ -50,5 +50,4 @@ class BlogCommentsController < ApplicationController
 			end			
 			return true
 		end
-
 end

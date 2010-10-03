@@ -1,3 +1,4 @@
+
 <% content_for :head do -%>
 
 	<%= javascript_include_tag :ckeditor %>
@@ -47,11 +48,18 @@
 				<%= f.submit 'Save' %> or <%= link_to 'Back', blog_posts_path %>
 			</p>
 		</div>
+<<<<<<< HEAD:app/views/blog_posts/_form.html.erb
 		<% content_for :left do -%>
 			<div class="blogEditRightPanel">
 				rightPanel
 			</div>
 		<% end -%>
 		
+=======
+		<div class="blogEditRightPanel">
+			rightPanel
+		</div>
+		<br style="clear: both;" />
+>>>>>>> af701d849098ce364c98b81f4e724425fab3713f:app/views/blog_posts/_form.html.erb
 	</div>
 <% end %>
