@@ -1,6 +1,7 @@
 BlogKit
 =======
 
+
 BlogKit is a rails plugin to add a blog to your app.  The goal is to provide common blog
 functionality that integrates into your existing app while keeping things simple.
 
