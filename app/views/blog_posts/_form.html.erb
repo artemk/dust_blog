@@ -45,7 +45,7 @@
 				<%= f.radio_button :published, true %><%= f.label :published_true, 'Publish' %>
 			</p>
 			<p>
-				<%= f.submit 'Save' %> or <%= link_to 'Back', blog_posts_path %>
+				<%= f.submit 'Save' %> or <%= link_to 'Back', user_blog_posts_path(@blog_post.user) %>
 			</p>
 		</div>
 		

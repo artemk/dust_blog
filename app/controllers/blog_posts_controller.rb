@@ -5,9 +5,10 @@ class BlogPostsController < ApplicationController
 	layout :choose_layout
 	
   before_filter :authenticate_user!, :except => [:index, :list]
-
+  before_filter :load_user, :only => [:index]
+  
   def index
-    @blog_posts = BlogPost.published.paginate(:page => params[:page], :per_page => 5, :order => 'published_at DESC')
+    @blog_posts = @user.blog_posts.published.paginate(:page => params[:page], :per_page => 5, :order => 'published_at DESC')
     @index_title = BlogKit.instance.settings['blog_name'] || 'Blog'
 
     respond_to do |format|
@@ -124,5 +125,7 @@ class BlogPostsController < ApplicationController
 				BlogKit.instance.settings['layout'] || 'application'
 			end
 		end
-
+    def load_user
+      @user = User.find_by_id(params[:user_id]) if params[:user_id]
+    end
 end

@@ -35,7 +35,7 @@
 		<ul class="blogList">
 			<li class="blogListFirst"><%= link_to(pluralize(blog_post.blog_comments.count, 'comment'), blog_post_path(blog_post), :class => 'blogCommentCount') %></li>
 			<% if params[:action] == 'show' %>
-				<li><%= link_to('Back', blog_posts_path) %></li>
+				<li><%= link_to('Back', user_blog_posts_path(blog_post.user)) %></li>
 			<% end %>
 		
 		

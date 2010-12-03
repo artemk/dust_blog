@@ -2,7 +2,7 @@
 <% @show_title = false -%>
 <%= stylesheet_link_tag 'blog_kit' %>
 <%= stylesheet_link_tag 'syntax/' + (BlogKit.instance.settings['theme'] || 'mac_classic') %>
-<%= auto_discovery_link_tag :atom, blog_posts_path(:format => :atom) %>
+<%#= auto_discovery_link_tag :atom, blog_posts_path(:format => :atom) %>
 
 <% if @blog_posts.size == 0 && !params[:page] %>
 	<div class="blogPost">
@@ -47,7 +47,7 @@
 				<ul class="blogList">
 					<li class="blogListFirst"><%= link_to(pluralize(blog_post.blog_comments.count, 'comment'), blog_post_path(blog_post), :class => 'blogCommentCount') %></li>
 					<% if params[:action] == 'show' %>
-						<li><%= link_to('Back', blog_posts_path) %></li>
+						<li><%= link_to('Back', user_blog_posts_path) %></li>
 					<% end %>
 
 
