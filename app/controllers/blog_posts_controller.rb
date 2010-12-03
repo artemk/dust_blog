@@ -3,6 +3,8 @@ class BlogPostsController < ApplicationController
 	
 	helper :blog	
 	layout :choose_layout
+	
+  before_filter :authenticate_user!, :except => [:index, :list]
 
   def index
     @blog_posts = BlogPost.published.paginate(:page => params[:page], :per_page => 5, :order => 'published_at DESC')
