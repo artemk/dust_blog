@@ -15,7 +15,7 @@
 	<div id="item">
 		<div style='float:right'> 
 			<%=link_to ('', edit_blog_post_path(post), :class => 'edit')%>
-			<%=link_to "", post, :confirm => 'Are you sure?', :method => :delete, :class => 'destroy' %>						
+			<%=link_to "", post, :method => :delete, :class => 'destroy' %>						
 		</div>
 		
 		<h3><%= link_to post.title, post %></h3>
