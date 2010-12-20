@@ -55,6 +55,8 @@
 						<li><%= link_to('Edit Post', edit_blog_post_path(blog_post))%></li>
 						<li><%= link_to('Delete', blog_post_path(blog_post), :method => :delete, :confirm => "Are you sure you want to destroy the post: #{blog_post.title}") %></li>
 					<% end %>
+					
+					<li><%= link_to("Читать полностью", blog_post) %></li>
 				</ul>
 			</p>
 

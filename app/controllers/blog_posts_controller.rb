@@ -4,8 +4,10 @@ class BlogPostsController < ApplicationController
 	helper :blog	
 	layout :choose_layout
 	
-  before_filter :authenticate_user!, :except => [:index, :list]
+  before_filter :authenticate_user!, :except => [:index, :list, :show]
   before_filter :load_user, :only => [:index]
+  
+  filter_resource_access
   
   def index
     @blog_posts = @user.blog_posts.published.paginate(:page => params[:page], :per_page => 5, :order => 'published_at DESC')
@@ -111,7 +113,7 @@ class BlogPostsController < ApplicationController
 		flash[:notice] = 'The blog post has been deleted'
 
     respond_to do |format|
-      format.html { redirect_to(post_list_url) }
+      format.html { redirect_to(user_blog_posts_url(current_user)) }
       format.xml  { head :ok }
     end
   end

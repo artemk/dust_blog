@@ -37,11 +37,10 @@
 			<% if params[:action] == 'show' %>
 				<li><%= link_to('Back', user_blog_posts_path(blog_post.user)) %></li>
 			<% end %>
-		
-		
-			<% if permitted_to? :manage, :blog_posts %>
-				<li><%= link_to('Edit Post', edit_blog_post_path(blog_post))%></li>
-				<li><%= link_to('Delete', blog_post_path(blog_post), :method => :delete, :confirm => "Are you sure you want to destroy the post: #{blog_post.title}") %></li>
+				
+			<% permitted_to? :manage_own, blog_post do %>
+				<li><%= link_to('Редактировать', edit_blog_post_path(blog_post))%></li>
+				<li><%= link_to('Удалить', blog_post_path(blog_post.id), :method => :delete) %></li>
 			<% end %>
 		</ul>
 	</p>
